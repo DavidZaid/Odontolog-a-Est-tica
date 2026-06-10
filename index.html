@@ -102,7 +102,7 @@
     overflow: hidden;
   }
   .hero-left {
-    padding: 80px 80px 80px 80px;
+    padding: 80px;
     display: flex;
     flex-direction: column;
     justify-content: center;
@@ -182,7 +182,7 @@
   /* floating premium badges */
   .hero-doc-card {
     position: absolute;
-    bottom: 60px;
+    bottom: 40px;
     left: 80px;
     background: var(--white);
     border-radius: var(--radius);
@@ -193,6 +193,7 @@
     box-shadow: 0 10px 40px rgba(0,0,0,0.04);
     border: 1px solid var(--border);
     animation: floatUp 4s ease-in-out infinite alternate;
+    z-index: 10;
   }
   @keyframes floatUp { from { transform: translateY(0); } to { transform: translateY(-8px); } }
   
@@ -217,7 +218,7 @@
     border: 1px solid var(--border);
     z-index: 10;
   }
-  .badge-num { font-size: 24px; font-weight: 500; color: var(--ink); font-family: var(--serif); line-height: 1; }
+  .badge-num { font-size: 18px; font-weight: 500; color: var(--ink); font-family: var(--serif); line-height: 1; }
   .badge-label { font-size: 11px; color: var(--ink3); margin-top: 4px; letter-spacing: 0.02em; }
 
   /* hero right — visual canvas */
@@ -226,10 +227,16 @@
     background: #111;
     overflow: hidden;
   }
-  .hero-placeholder-svg {
+  .hero-image-bg {
     width: 100%; height: 100%;
-    display: flex; align-items: center; justify-content: center;
-    background: linear-gradient(180deg, #1A1A1A 0%, #0A0A0A 100%);
+    object-fit: cover;
+    filter: brightness(0.85) contrast(1.05);
+  }
+  .hero-gradient-overlay {
+    position: absolute;
+    top: 0; left: 0; width: 100%; height: 100%;
+    background: linear-gradient(to right, var(--bg) 0%, transparent 15%);
+    pointer-events: none;
   }
 
   .img-tags {
@@ -241,7 +248,7 @@
     z-index: 2;
   }
   .img-tag {
-    background: rgba(255,255,255,0.08);
+    background: rgba(255,255,255,0.15);
     backdrop-filter: blur(12px);
     -webkit-backdrop-filter: blur(12px);
     border-radius: 40px;
@@ -249,7 +256,7 @@
     font-size: 12px;
     font-weight: 500;
     color: #fff;
-    border: 1px solid rgba(255,255,255,0.1);
+    border: 1px solid rgba(255,255,255,0.2);
     transition: all .3s;
     cursor: pointer;
   }
@@ -259,7 +266,7 @@
   .marquee-wrap {
     background: var(--ink);
     overflow: hidden;
-    padding: 20px 0;
+    padding: 24px 0;
   }
   .marquee-track {
     display: flex;
@@ -422,7 +429,6 @@
     min-height: 380px;
   }
   .svc:hover { border-color: transparent; transform: translateY(-6px); box-shadow: 0 30px 60px rgba(0,0,0,0.06); }
-  .svc-top {}
   .svc-icon-text {
     font-family: var(--serif);
     font-size: 32px;
@@ -487,20 +493,21 @@
   }
   .doc-card:hover { transform: translateY(-6px); box-shadow: 0 20px 45px rgba(0,0,0,0.05); }
   .doc-img-area {
-    height: 320px;
+    height: 380px;
     background: #EAEAEA;
-    display: flex;
-    align-items: center;
-    justify-content: center;
     position: relative;
+    overflow: hidden;
   }
-  .doc-placeholder-text {
-    font-family: var(--serif); font-size: 72px; color: rgba(0,0,0,0.05);
+  .doc-img-area img {
+    width: 100%; height: 100%; object-fit: cover; object-position: center top;
+    filter: grayscale(15%) contrast(1.02); transition: transform .4s ease;
   }
+  .doc-card:hover .doc-img-area img { transform: scale(1.04); }
+  
   .doc-specialty-tag {
     position: absolute;
     bottom: 20px; left: 20px;
-    background: rgba(255,255,255,0.9);
+    background: rgba(255,255,255,0.95);
     backdrop-filter: blur(8px);
     border-radius: 30px;
     padding: 6px 16px;
@@ -509,6 +516,8 @@
     letter-spacing: 0.03em;
     text-transform: uppercase;
     color: var(--ink);
+    z-index: 2;
+    border: 1px solid rgba(0,0,0,0.03);
   }
   .doc-body { padding: 28px 28px; }
   .doc-card-name { font-size: 17px; font-weight: 500; color: var(--ink); margin-bottom: 4px; }
@@ -561,8 +570,9 @@
   .test-av {
     width: 40px; height: 40px; border-radius: 50%;
     background: var(--accent-mid); display: flex; align-items: center; justify-content: center;
-    font-size: 13px; font-weight: 500; color: #fff;
+    font-size: 13px; font-weight: 500; color: #fff; overflow: hidden;
   }
+  .test-av img { width: 100%; height: 100%; object-fit: cover; }
   .test-author-name { font-size: 14px; font-weight: 500; color: #fff; }
   .test-author-sub { font-size: 12px; color: rgba(255,255,255,0.4); margin-top: 2px; }
 
@@ -665,11 +675,11 @@
   .footer-bottom { display: flex; justify-content: space-between; align-items: center; font-size: 12px; }
   .footer-bottom a { color: rgba(255,255,255,0.3); text-decoration: none; }
 
-  /* ── RESPONSIVE DESIGN (BREAKPOINTS REFINADOS) ── */
+  /* ── RESPONSIVE DESIGN ── */
   @media (max-width: 1024px) {
     nav { padding: 0 32px; }
     .hero { grid-template-columns: 1fr; }
-    .hero-right { height: 450px; }
+    .hero-right { height: 500px; }
     .hero-left { padding: 80px 32px; }
     .hero-doc-card { left: 32px; bottom: 40px; }
     .about-strip, .process-section, .services-section, .doctors-section, .testimonials-section, .cta-section { padding: 100px 32px; }
@@ -725,7 +735,7 @@
   <div class="hero-left">
     <div class="hero-stat-badge">
       <div class="badge-num">✦ High-End</div>
-      <div class="badge-label">Tecnología Dental Odontológica</div>
+      <div class="badge-label">Tecnología Odontológica</div>
     </div>
 
     <span class="hero-eyebrow">Clínica Boutique & Estética Avanzada</span>
@@ -734,7 +744,7 @@
     
     <div class="hero-actions">
       <button class="btn-primary" onclick="document.getElementById('agendar').scrollIntoView({behavior:'smooth'})">Agendar Evaluación Premium</button>
-      <button class="btn-ghost" onclick="document.getElementById('servicios').scrollIntoView({behavior:'smooth'})">Ver Galería de Arte</button>
+      <button class="btn-ghost" onclick="document.getElementById('servicios').scrollIntoView({behavior:'smooth'})">Ver Especialidades</button>
     </div>
 
     <div class="hero-doc-card">
@@ -747,13 +757,8 @@
   </div>
 
   <div class="hero-right">
-    <div class="hero-placeholder-svg">
-      <div style="text-align:center; color: #FFF; opacity: 0.25;">
-        <div style="font-family:var(--serif); font-size:100px; color:var(--accent);">✧</div>
-        <p style="font-size:12px; letter-spacing: 0.1em; text-transform:uppercase;">Visual del Estudio Boutique</p>
-        <p style="font-size:11px; margin-top:4px;">[Sustituir con fotografía conceptual macro/arquitectura clínica]</p>
-      </div>
-    </div>
+    <img src="https://images.unsplash.com/photo-1629909613654-28e377c37b09?q=80&w=1200&auto=format&fit=cover" alt="Estudio Clínico Minimalista Premium" class="hero-image-bg">
+    <div class="hero-gradient-overlay"></div>
 
     <div class="img-tags">
       <div class="img-tag active">Diseño de Sonrisa 3D</div>
@@ -839,14 +844,14 @@
       <div class="section-label">Nuestras Especialidades</div>
       <h2>Tratamientos sin concesiones</h2>
     </div>
-    <p>Invertimos en el equipamiento tecnológico y los materiales biocompatibles más caros de la industria global. Calidad absoluta sin atajos.</p>
+    <p>Invertimos en el equipamiento tecnológico y los materiales biocompatibles más avanzados de la industria global. Calidad absoluta sin atajos.</p>
   </div>
   <div class="services-grid reveal">
     <div class="svc featured">
       <div class="svc-top">
         <div class="svc-icon-text">✧ 01</div>
         <div class="svc-title">Alta Estética & Carillas</div>
-        <div class="svc-desc">Lentes de porcelana y cerámicas biomiméticas de espesor ultra-delgado. Brillo natural, textura orgánica y durabilidad garantizada de por vida.</div>
+        <div class="svc-desc">Lentes de porcelana y cerámicas biomiméticas de espesor ultra-delgado. Brillo natural, textura orgánica y durabilidad garantizada.</div>
       </div>
       <a href="#agendar" class="svc-link">Consultar Tratamiento <span>→</span></a>
     </div>
@@ -879,7 +884,7 @@
   <div class="doctors-grid reveal">
     <div class="doc-card">
       <div class="doc-img-area">
-        <div class="doc-placeholder-text">Silva</div>
+        <img src="https://images.unsplash.com/photo-1622253692010-333f2da6031d?q=80&w=600&auto=format&fit=cover" alt="Dr. Alejandro Silva">
         <span class="doc-specialty-tag">Estética & Rehabilitación</span>
       </div>
       <div class="doc-body">
@@ -890,7 +895,7 @@
 
     <div class="doc-card">
       <div class="doc-img-area">
-        <div class="doc-placeholder-text">Mendoza</div>
+        <img src="https://images.unsplash.com/photo-1594824813573-246434e33963?q=80&w=600&auto=format&fit=cover" alt="Dra. Claudia Mendoza">
         <span class="doc-specialty-tag">Implantología Quirúrgica</span>
       </div>
       <div class="doc-body">
@@ -901,12 +906,12 @@
 
     <div class="doc-card">
       <div class="doc-img-area">
-        <div class="doc-placeholder-text">Ortega</div>
+        <img src="https://images.unsplash.com/photo-1537368910025-700350fe46c7?q=80&w=600&auto=format&fit=cover" alt="Dr. Andrés Ortega">
         <span class="doc-specialty-tag">Ortodoncia Master</span>
       </div>
       <div class="doc-body">
         <div class="doc-card-name">Dr. Andrés Ortega</div>
-        <div class="doc-card-exp">Speaker Oficial Invisalign® Gold Latinoamerica</div>
+        <div class="doc-card-exp">Speaker Oficial Invisalign® Gold Latinoamérica</div>
       </div>
     </div>
   </div>
@@ -924,7 +929,9 @@
         <p class="test-text">Como director de mi propia fintech, mi imagen proyecta seguridad. El diseño de sonrisa biomimético que hicieron conmigo cambió por completo las reglas del juego. No se ve artificial; se ve impecable, elegante y con una simetría perfecta.</p>
       </div>
       <div class="test-author-row">
-        <div class="test-av">AM</div>
+        <div class="test-av">
+          <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?q=80&w=150&auto=format&fit=cover" alt="Mauricio">
+        </div>
         <div>
           <div class="test-author-name">Mauricio Restrepo</div>
           <div class="test-author-sub">CEO & Inversionista Ángel</div>
@@ -938,7 +945,9 @@
         <p class="test-text">Pasé años buscando un odontólogo que entendiera que no quería dientes blancos planos de apariencia falsa. Aquí crearon carillas con texturas y matices naturales asombrosos.</p>
       </div>
       <div class="test-author-row">
-        <div class="test-av">VE</div>
+        <div class="test-av">
+          <img src="https://images.unsplash.com/photo-1544005313-94ddf0286df2?q=80&w=150&auto=format&fit=cover" alt="Valeria">
+        </div>
         <div>
           <div class="test-author-name">Valeria Espinosa</div>
           <div class="test-author-sub">Diseñadora de Modas</div>
@@ -952,7 +961,9 @@
         <p class="test-text">El escaneo 3D y la tecnología de cirugía de implantes guiada me ahorraron meses de dolor. Increíble atención, puntualidad obsesiva y acabados premium.</p>
       </div>
       <div class="test-author-row">
-        <div class="test-av">CH</div>
+        <div class="test-av">
+          <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?q=80&w=150&auto=format&fit=cover" alt="Carlos">
+        </div>
         <div>
           <div class="test-author-name">Carlos Holguín</div>
           <div class="test-author-sub">Consultor Corporativo</div>
@@ -964,25 +975,16 @@
 
 <section class="cta-section" id="agendar">
   <div class="cta-left reveal">
-    <h2>Empieza el cambio <em>hoy mismo</em></h2>
-    <p>Las plazas de evaluación premium con nuestros directores clínicos son limitadas. Reserva tu espacio exclusivo en nuestra sede boutique de Bogotá.</p>
+    <h2>Inicie la arquitectura de su <em>nueva sonrisa</em></h2>
+    <p>Reserve un espacio exclusivo de diagnóstico integral. Nuestro equipo clínico evaluará sus estructuras óseas y faciales mediante escaneo tridimensional avanzado.</p>
     
-    <form class="cta-form" onsubmit="event.preventDefault(); alert('Evaluación solicitada. Un asesor premium se comunicará contigo en menos de 15 minutos.');">
+    <form class="cta-form" onsubmit="event.preventDefault(); alert('Solicitud Premium Recibida. Un asesor exclusivo se contactará con usted en menos de 15 minutos.');">
       <div class="form-row">
         <input type="text" class="form-input" placeholder="Nombre completo" required>
-        <input type="email" class="form-input" placeholder="Correo electrónico" required>
+        <input type="tel" class="form-input" placeholder="Teléfono de contacto" required>
       </div>
-      <div class="form-row">
-        <input type="tel" class="form-input" placeholder="Número de celular (WhatsApp)" required>
-        <select class="form-input" required>
-          <option value="" disabled selected>Tratamiento de interés</option>
-          <option value="estetica">Estética Dental & Carillas Premium</option>
-          <option value="ortodoncia">Ortodoncia Invisible (Invisalign)</option>
-          <option value="implantes">Implantes Dentales & Cirugía Avanzada</option>
-          <option value="general">Evaluación de Diagnóstico Completo</option>
-        </select>
-      </div>
-      <button type="submit" class="form-submit">Solicitar Espacio de Consulta</button>
+      <input type="email" class="form-input" placeholder="Correo electrónico principal" required>
+      <button type="submit" class="form-submit">Solicitar Espacio de Evaluación</button>
     </form>
   </div>
 
@@ -990,27 +992,25 @@
     <div class="info-item">
       <div class="info-icon">📍</div>
       <div>
-        <div class="info-label">Ubicación Privada</div>
-        <div class="info-value">Calle 93 # 11A - 42, Edificio Premium</div>
-        <div class="info-sub">Chicó Reservado, Bogotá, Colombia</div>
+        <div class="info-label">Ubicación del Estudio</div>
+        <div class="info-value">Calle 93B # 11-45, Chicó</div>
+        <div class="info-sub">Bogotá, D.C. — Parque de la 93</div>
       </div>
     </div>
-
     <div class="info-item">
-      <div class="info-icon">⏱</div>
+      <div class="info-icon">🕒</div>
       <div>
-        <div class="info-label">Horario Preferencial</div>
-        <div class="info-value">Lunes a Viernes: 7:00 AM — 7:00 PM</div>
-        <div class="info-sub">Sábados exclusivos: Con cita previa de urgencia estetica</div>
+        <div class="info-label">Horario de Atención</div>
+        <div class="info-value">Lunes a Viernes: 7:00 AM - 7:00 PM</div>
+        <div class="info-sub">Sábados Exclusivos: 8:00 AM - 1:00 PM</div>
       </div>
     </div>
-
     <div class="info-item">
-      <div class="info-icon">💬</div>
+      <div class="info-icon">📞</div>
       <div>
-        <div class="info-label">Atención Conserje Directa</div>
-        <div class="info-value">+57 (310) 845-9000</div>
-        <div class="info-sub">Línea de atención prioritaria vía WhatsApp</div>
+        <div class="info-label">Contacto Conserjería</div>
+        <div class="info-value">+57 (601) 745-8920</div>
+        <div class="info-sub">Lineal Directa Concierge / WhatsApp Business</div>
       </div>
     </div>
   </div>
@@ -1018,31 +1018,31 @@
 
 <footer>
   <div class="footer-top">
-    <div class="footer-col">
-      <div class="footer-brand">VITA ORAL</div>
-      <p class="footer-tagline">Dental Architecture, Biomimetics & High Esthetics. Rediseñando los estándares de la salud dental.</p>
+    <div class="footer-brand">
+      <div class="logo" href="#" style="color:#FFF; margin-bottom: 16px;"><span class="logo-dot"></span>VITA ORAL</div>
+      <p class="footer-tagline">Fusionando la salud biológica estructural con la estética biomimética de lujo.</p>
     </div>
     <div class="footer-col">
       <h4>Servicios</h4>
       <ul>
-        <li><a href="#servicios">Diseño de Sonrisa</a></li>
-        <li><a href="#servicios">Invisalign®</a></li>
-        <li><a href="#servicios">Implantes Clínicos</a></li>
-        <li><a href="#servicios">Blanqueamiento Láser</a></li>
+        <li><a href="#">Carillas Cerámicas</a></li>
+        <li><a href="#">Invisalign® Pro</a></li>
+        <li><a href="#">Implantes de Carga Inmediata</a></li>
+        <li><a href="#">Blanqueamiento Láser Avanzado</a></li>
       </ul>
     </div>
     <div class="footer-col">
       <h4>Legal</h4>
       <ul>
-        <li><a href="#">Privacidad de Datos</a></li>
+        <li><a href="#">Políticas de Privacidad</a></li>
         <li><a href="#">Términos Clínicos</a></li>
-        <li><a href="#">Registro Sanitario Sijur</a></li>
+        <li><a href="#">Registro de Sanidad Nº 4810</a></li>
       </ul>
     </div>
   </div>
   <div class="footer-bottom">
-    <p>&copy; 2026 Vita Oral Estudio Odontológico. Todos los derechos reservados.</p>
-    <p><a href="#">Hecho con excelencia</a></p>
+    <p>&copy; 2026 VITA ORAL Dental Architecture. Todos los derechos reservados.</p>
+    <p><a href="#">Estudio Clínico Elite</a></p>
   </div>
 </footer>
 
@@ -1052,14 +1052,14 @@
     const observerOptions = {
       root: null,
       rootMargin: '0px',
-      threshold: 0.15
+      threshold: 0.1
     };
 
     const observer = new IntersectionObserver((entries, observer) => {
       entries.forEach(entry => {
         if(entry.isIntersecting) {
           entry.target.classList.add('visible');
-          observer.unobserve(entry.target); // Solo anima una vez
+          observer.unobserve(entry.target);
         }
       });
     }, observerOptions);
